@@ -1,0 +1,79 @@
+<section id="top" class="container hero">
+  <p class="pill mono"><span class="dot" aria-hidden="true"></span>Open source · Apache-2.0</p>
+  <h1>Research software you can read, run and trust.</h1>
+  <p class="lede">
+    neuro-kitchen is a growing toolkit for research: signal processing, data conversion,
+    paper management and image analysis.
+  </p>
+  <div class="actions">
+    <a href="#projects" class="btn btn-primary">Explore the toolkit</a>
+    <a href="#support" class="btn">Get involved</a>
+  </div>
+</section>
+
+<div class="container trace">
+  <svg viewBox="0 0 1200 180" aria-hidden="true">
+    <line x1="0" y1="90" x2="1200" y2="90" stroke="#1A2130" stroke-width="1"></line>
+    <polyline fill="none" stroke="#3A4458" stroke-width="1.5" points="0,90 60,90 70,86 80,94 140,90 210,90 220,84 230,96 300,90 380,90 390,87 400,93 470,90"></polyline>
+    <polyline class="spikes" fill="none" stroke="#C6F26B" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round" points="470,90 500,90 510,40 522,150 534,82 546,90 600,90 612,22 626,168 640,78 652,90 720,90 732,48 744,140 756,86 768,90"></polyline>
+    <polyline fill="none" stroke="#3A4458" stroke-width="1.5" points="768,90 840,90 850,86 860,94 930,90 1010,90 1020,85 1030,95 1100,90 1200,90"></polyline>
+  </svg>
+</div>
+
+<style>
+  .hero {
+    padding-block: 96px 64px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 28px;
+  }
+  .pill {
+    margin: 0;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 16px;
+    border: 1px solid var(--line-2);
+    border-radius: 999px;
+    color: var(--text-2);
+  }
+  .dot { width: 8px; height: 8px; border-radius: 999px; background: var(--lime); }
+  h1 {
+    margin: 0;
+    font-size: clamp(44px, 7vw, 84px);
+    line-height: 1;
+    letter-spacing: -0.04em;
+    font-weight: 700;
+    max-width: 15ch;
+  }
+  .lede {
+    margin: 0;
+    font-size: 20px;
+    line-height: 1.55;
+    color: var(--text-2);
+    max-width: 38rem;
+  }
+  .actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; }
+
+  .trace { padding-bottom: 96px; }
+  .trace svg { width: 100%; height: auto; display: block; }
+
+  /* The spike train draws itself in once, unless the visitor prefers less motion */
+  .spikes {
+    stroke-dasharray: 900;
+    stroke-dashoffset: 900;
+    animation: draw 1.6s ease-out 0.3s forwards;
+  }
+  @keyframes draw { to { stroke-dashoffset: 0; } }
+  @media (prefers-reduced-motion: reduce) {
+    .spikes { animation: none; stroke-dashoffset: 0; }
+  }
+
+  @media (max-width: 640px) {
+    .hero { padding-block: 56px 40px; }
+    .lede { font-size: 18px; }
+    .trace { padding-bottom: 64px; }
+  }
+</style>

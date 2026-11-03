@@ -1,0 +1,60 @@
+---
+import Logo from './Logo.astro';
+import { links } from '../data/site';
+---
+
+<header class="container header">
+  <a href="#top" class="brand">
+    <Logo />
+    <span>neuro-kitchen</span>
+  </a>
+  <nav aria-label="Main" class="nav">
+    <a href="#projects">Projects</a>
+    <a href="#principles">Principles</a>
+    <a href="#support">Support</a>
+    <a href={links.github} class="nav-cta">GitHub</a>
+  </nav>
+</header>
+
+<style>
+  .header {
+    padding-block: 24px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+  }
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    color: var(--text);
+    font-weight: 600;
+    font-size: 19px;
+    letter-spacing: -0.01em;
+  }
+  .brand:hover { color: var(--text); }
+  .nav {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px 28px;
+    font-size: 15px;
+  }
+  .nav a { color: var(--text-2); text-decoration: none; }
+  .nav a:hover { color: var(--text); }
+  .nav .nav-cta {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    padding: 0 18px;
+    background: var(--surface-2);
+    border: 1px solid var(--line-2);
+    border-radius: 999px;
+    color: var(--text);
+    font-weight: 500;
+  }
+  .nav .nav-cta:hover { border-color: var(--line-3); }
+</style>

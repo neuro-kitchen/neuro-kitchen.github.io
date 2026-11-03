@@ -1,0 +1,44 @@
+---
+import { links } from '../data/site';
+---
+
+<section id="support" class="container support">
+  <p class="eyebrow mono">// JOIN IN</p>
+  <h2>Made for people like you.</h2>
+  <p class="body">
+    Students, researchers and engineers who want tools they can open up, understand and
+    build on. If one of our tools saved you an afternoon, we'd love to hear about it.
+    And if you're able to chip in, you help the toolkit keep growing.
+  </p>
+  <div class="actions">
+    <a href={links.sponsors} class="btn btn-primary">Chip in on GitHub Sponsors</a>
+    <a href={links.discussions} class="btn">Tell us how you use it</a>
+    <a href={links.contributing} class="btn">Help build it</a>
+  </div>
+</section>
+
+<style>
+  .support {
+    padding-block: 96px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 22px;
+  }
+  .eyebrow { margin: 0; color: var(--lime); }
+  h2 {
+    margin: 0;
+    font-size: clamp(36px, 5vw, 56px);
+    letter-spacing: -0.035em;
+    max-width: 18ch;
+  }
+  .body {
+    margin: 0;
+    font-size: 18px;
+    line-height: 1.6;
+    color: var(--text-2);
+    max-width: 40rem;
+  }
+  .actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; }
+</style>

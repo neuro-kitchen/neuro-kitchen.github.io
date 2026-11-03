@@ -1,0 +1,55 @@
+---
+const principles = [
+  {
+    title: 'Open by default',
+    body: 'Apache-2.0 code, public issues, and decisions made where everyone can see them.',
+  },
+  {
+    title: 'Reproducible',
+    body: 'Versioned, citable releases so a result in a paper can be rerun years later.',
+  },
+  {
+    title: 'Shaped by researchers',
+    body: 'Designed around real lab workflows, and improved by the people who use the tools every day.',
+  },
+];
+---
+
+<section id="principles" class="principles">
+  <div class="container inner">
+    <h2 class="section-title">How we build</h2>
+    <div class="grid">
+      {
+        principles.map((p, i) => (
+          <div class="item">
+            <p class="num mono">{String(i + 1).padStart(2, '0')}</p>
+            <h3>{p.title}</h3>
+            <p class="body">{p.body}</p>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .principles {
+    border-top: 1px solid var(--surface-2);
+    border-bottom: 1px solid var(--surface-2);
+  }
+  .inner {
+    padding-block: 88px;
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 40px;
+  }
+  .item { display: flex; flex-direction: column; gap: 10px; }
+  .num { margin: 0; color: var(--lime); }
+  h3 { margin: 0; font-size: 22px; }
+  .body { margin: 0; font-size: 16px; line-height: 1.55; color: var(--text-2); }
+</style>
