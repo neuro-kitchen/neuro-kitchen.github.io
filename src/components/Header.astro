@@ -1,5 +1,6 @@
 ---
 import Logo from './Logo.astro';
+import ThemeToggle from './ThemeToggle.astro';
 import { links } from '../data/site';
 ---
 
@@ -13,6 +14,7 @@ import { links } from '../data/site';
     <a href="#principles">Principles</a>
     <a href="#support">Support</a>
     <a href={links.github} class="nav-cta">GitHub</a>
+    <ThemeToggle />
   </nav>
 </header>
 

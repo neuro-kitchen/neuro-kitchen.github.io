@@ -1,0 +1,86 @@
+<button type="button" class="theme-toggle" data-theme-toggle aria-label="Switch color theme">
+  <svg class="icon sun" viewBox="0 0 24 24" aria-hidden="true">
+    <circle cx="12" cy="12" r="4"></circle>
+    <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"></path>
+  </svg>
+  <svg class="icon moon" viewBox="0 0 24 24" aria-hidden="true">
+    <path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"></path>
+  </svg>
+</button>
+
+<style>
+  .theme-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    border: 1px solid var(--line-2);
+    border-radius: 999px;
+    background: var(--surface);
+    color: var(--text);
+    cursor: pointer;
+  }
+  .theme-toggle:hover { border-color: var(--line-3); }
+  .icon {
+    width: 20px;
+    height: 20px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+  /* Show the icon for the theme you'd switch TO */
+  .sun { display: none; }
+  :global(:root[data-active-theme='dark']) .sun { display: block; }
+  :global(:root[data-active-theme='dark']) .moon { display: none; }
+</style>
+
+<script>
+  const root = document.documentElement;
+  const media = window.matchMedia('(prefers-color-scheme: dark)');
+
+  function stored(): string | null {
+    try {
+      return localStorage.getItem('theme');
+    } catch {
+      return null;
+    }
+  }
+
+  function active(): 'light' | 'dark' {
+    const choice = root.dataset.theme;
+    if (choice === 'light' || choice === 'dark') return choice;
+    return media.matches ? 'dark' : 'light';
+  }
+
+  function sync() {
+    const current = active();
+    root.dataset.activeTheme = current;
+    document.querySelectorAll<HTMLButtonElement>('[data-theme-toggle]').forEach((btn) => {
+      btn.setAttribute('aria-label', current === 'dark' ? 'Switch to light theme' : 'Switch to dark theme');
+    });
+  }
+
+  document.querySelectorAll<HTMLButtonElement>('[data-theme-toggle]').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const next = active() === 'dark' ? 'light' : 'dark';
+      root.dataset.theme = next;
+      try {
+        localStorage.setItem('theme', next);
+      } catch {
+        /* storage unavailable: the choice lasts for this page view */
+      }
+      sync();
+    });
+  });
+
+  // Follow the system setting live, unless the visitor picked a theme
+  media.addEventListener('change', () => {
+    if (!stored()) sync();
+  });
+
+  sync();
+</script>
