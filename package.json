@@ -11,9 +11,11 @@
     "astro": "astro"
   },
   "dependencies": {
+    "@fontsource-variable/inter-tight": "^5.3.0",
+    "@fontsource/jetbrains-mono": "^5.3.0",
     "astro": "^7.4.4"
   },
   "engines": {
-    "node": ">=22.12"
+    "node": ">=22.23.4"
   }
 }
