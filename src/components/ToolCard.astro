@@ -14,6 +14,14 @@ const released = Boolean(tool.repo);
   <h3>{tool.name}</h3>
   <p class="desc">{tool.description}</p>
   {
+    tool.highlights && (
+      <ul class="highlights">
+        {tool.highlights.map((h) => <li>{h}</li>)}
+      </ul>
+    )
+  }
+  {tool.install && <code class="install mono">{tool.install}</code>}
+  {
     released ? (
       <a href={tool.repo} class="card-link">
         View on GitHub <span aria-hidden="true">→</span>
@@ -41,6 +49,25 @@ const released = Boolean(tool.repo);
   .meta { margin: 0; color: var(--accent); }
   h3 { margin: 0; font-size: 24px; letter-spacing: -0.02em; }
   .desc { margin: 0; font-size: 16px; line-height: 1.55; color: var(--text-2); }
+  .highlights {
+    margin: 0;
+    padding-left: 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    font-size: 15px;
+    line-height: 1.5;
+    color: var(--text-2);
+  }
+  .highlights li::marker { color: var(--accent); }
+  .install {
+    align-self: flex-start;
+    padding: 6px 10px;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    font-size: 14px;
+    color: var(--text);
+  }
   .card-link {
     margin-top: auto;
     display: inline-flex;

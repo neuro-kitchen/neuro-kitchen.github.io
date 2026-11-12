@@ -7,12 +7,15 @@ and deployed to GitHub Pages at **https://neuro-kitchen.github.io**.
 
 | To change | Edit |
 |---|---|
-| The tools in "The toolkit" | `src/data/tools.ts` |
+| The tools in "The toolkit" (description, highlights, install command) | `src/data/tools.ts` |
+| "One frame, many tools" (what the apps share, released or in progress) | `src/components/Platform.astro` |
 | Sponsor, contributing and footer links | `src/data/site.ts` |
 | Hero, principles and support text | `src/components/` |
 | Colors and fonts | `src/styles/global.css` |
 
-To add a tool, add an entry to `src/data/tools.ts`. Leave out `repo` while it's private and the card shows "Coming soon".
+To add a tool, add an entry to `src/data/tools.ts`. Leave out `repo` while it's private and the card shows "Coming soon". Every tool with a `repo` also has its releases on the Changelog page.
+
+When a feature in "One frame, many tools" ships, change its `status` to `Released`.
 
 ## Run it locally
 
