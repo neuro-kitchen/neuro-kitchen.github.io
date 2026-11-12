@@ -1,0 +1,86 @@
+---
+// What every app of the toolkit shares (the kitchen crates). `status` says what is released and
+// what is still being built, so the page never promises more than a visitor can download.
+const features = [
+  {
+    title: 'Any GPU, or the CPU',
+    body: 'The heavy work is written once in CubeCL and runs on Vulkan, Metal, CUDA or ROCm, or on the CPU, from the app, Python or the command line.',
+    status: 'Released',
+  },
+  {
+    title: 'One list of actions',
+    body: 'Every action of an app is declared once, with what it does and when it can run. Menus, keyboard keys, the search and agents all use that same list, so none drifts from the others.',
+    status: 'In progress',
+  },
+  {
+    title: 'Agents you already use',
+    body: 'An app serves its actions to agents over MCP, and its chat runs the agent you already have (Antigravity, Claude Code, any ACP agent) with your own login. No API keys in the app, and every action an agent takes asks first and is recorded.',
+    status: 'In progress',
+  },
+  {
+    title: 'An episodic memory of the work',
+    body: 'A timeline of what you and the agent did: which kind of work, when, for how long, summarised into a few episodes. Click one to see each step, where it came from and what it produced.',
+    status: 'In progress',
+  },
+  {
+    title: 'Projects that travel',
+    body: 'A project keeps its steps, its pipeline and its scripts’ locked environments (uv.lock, Cargo.lock), so the same analysis runs headless over many files, or on another computer.',
+    status: 'In progress',
+  },
+];
+---
+
+<section id="platform" class="container platform">
+  <div class="head">
+    <h2 class="section-title">One frame, many tools</h2>
+    <p class="lede">
+      The apps share one look, one frame and one way to work, so learning one is learning them all.
+    </p>
+  </div>
+  <div class="grid">
+    {
+      features.map((f) => (
+        <div class="item">
+          <p class:list={['status', 'mono', { released: f.status === 'Released' }]}>{f.status}</p>
+          <h3>{f.title}</h3>
+          <p class="body">{f.body}</p>
+        </div>
+      ))
+    }
+  </div>
+</section>
+
+<style>
+  .platform {
+    padding-bottom: 96px;
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+  }
+  .head { display: flex; flex-direction: column; gap: 12px; }
+  .lede { margin: 0; font-size: 18px; line-height: 1.55; color: var(--text-2); max-width: 40rem; }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+  }
+  .item {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 24px;
+    border: 1px solid var(--line);
+    border-radius: 16px;
+  }
+  .status {
+    margin: 0;
+    align-self: flex-start;
+    padding: 4px 10px;
+    border: 1px solid var(--line-3);
+    border-radius: 999px;
+    color: var(--text-2);
+  }
+  .status.released { border-color: var(--accent); color: var(--accent); }
+  h3 { margin: 0; font-size: 20px; letter-spacing: -0.01em; }
+  .body { margin: 0; font-size: 16px; line-height: 1.55; color: var(--text-2); }
+</style>
