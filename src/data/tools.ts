@@ -29,7 +29,7 @@ export const tools: Tool[] = [
     repo: 'https://github.com/neuro-kitchen/dsp-kitchen',
   },
   {
-    name: 'lumen',
+    name: 'lucem',
     category: 'image analysis',
     description:
       'A GPU workstation for histology and microscopy: whole-slide and OME-Zarr images, annotation, pipelines and measurement tables.',
@@ -38,6 +38,8 @@ export const tools: Tool[] = [
       'Nucleus models (StarDist) and Segment Anything as plugins',
       'Every step recorded, and replayed over many slides from the command line',
     ],
+    install: 'cargo add lucem',
+    repo: 'https://github.com/neuro-kitchen/lucem',
   },
   {
     name: 'kitchen',
