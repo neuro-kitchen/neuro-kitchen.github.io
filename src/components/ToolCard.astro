@@ -23,9 +23,17 @@ const released = Boolean(tool.repo);
   {tool.install && <code class="install mono">{tool.install}</code>}
   {
     released ? (
-      <a href={tool.repo} class="card-link">
-        View on GitHub <span aria-hidden="true">→</span>
-      </a>
+      <div class="links">
+        {tool.viewer && (
+          <a href={tool.viewer} class="try">
+            Try it in your browser <span aria-hidden="true">→</span>
+          </a>
+        )}
+        {tool.docs && <a href={tool.docs} class="card-link">Docs</a>}
+        <a href={tool.repo} class="card-link">
+          {tool.viewer || tool.docs ? 'GitHub' : 'View on GitHub'} <span aria-hidden="true">→</span>
+        </a>
+      </div>
     ) : (
       <p class="badge mono">Coming soon</p>
     )
@@ -68,8 +76,27 @@ const released = Boolean(tool.repo);
     font-size: 14px;
     color: var(--text);
   }
-  .card-link {
+  .links {
     margin-top: auto;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 4px 20px;
+  }
+  /* The one action that runs the tool: filled, the others are links */
+  .try {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    min-height: 44px;
+    padding: 0 16px;
+    border-radius: 10px;
+    background: var(--accent);
+    color: var(--on-accent, var(--bg));
+    font-weight: 600;
+    text-decoration: none;
+  }
+  .card-link {
     display: inline-flex;
     align-items: center;
     gap: 6px;

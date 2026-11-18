@@ -12,6 +12,10 @@ export interface Tool {
   /** How to get it, shown as a command (`pip install dspk`). */
   install?: string;
   repo?: string;
+  /** The documentation site. */
+  docs?: string;
+  /** The app in the browser, nothing to install (the docs' viewer). */
+  viewer?: string;
 }
 
 export const tools: Tool[] = [
@@ -27,6 +31,8 @@ export const tools: Tool[] = [
     ],
     install: 'pip install dspk',
     repo: 'https://github.com/neuro-kitchen/dsp-kitchen',
+    docs: 'https://neuro-kitchen.github.io/dsp-kitchen/',
+    viewer: 'https://neuro-kitchen.github.io/dsp-kitchen/viewer/',
   },
   {
     name: 'lucem',
@@ -40,6 +46,8 @@ export const tools: Tool[] = [
     ],
     install: 'cargo add lucem',
     repo: 'https://github.com/neuro-kitchen/lucem',
+    docs: 'https://neuro-kitchen.github.io/lucem/',
+    viewer: 'https://neuro-kitchen.github.io/lucem/viewer/',
   },
   {
     name: 'kitchen',
