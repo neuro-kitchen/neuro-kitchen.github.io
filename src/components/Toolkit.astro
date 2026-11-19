@@ -1,12 +1,17 @@
 ---
 import ToolCard from './ToolCard.astro';
 import { tools } from '../data/tools';
+
+// dsp-kitchen and lucem have their own section (Workflow.astro): the rest of the family here
+const main = ['dsp-kitchen', 'lucem'];
+const others = tools.filter((t) => !main.includes(t.name));
 ---
 
 <section id="projects" class="container toolkit">
-  <h2 class="section-title">The toolkit</h2>
+  <p class="eyebrow mono">03 · The family</p>
+  <h2 class="section-title">Also in the family.</h2>
   <div class="grid">
-    {tools.map((tool) => <ToolCard tool={tool} />)}
+    {others.map((tool) => <ToolCard tool={tool} />)}
   </div>
 </section>
 
@@ -17,6 +22,7 @@ import { tools } from '../data/tools';
     flex-direction: column;
     gap: 32px;
   }
+  .eyebrow { margin: 0 0 -20px; color: var(--accent); }
   .grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));

@@ -1,0 +1,92 @@
+---
+// The two main tools, introduced once: what each is for, its path from raw data to a result as
+// numbered steps (each named as the app names it), and its links (taken from tools.ts).
+import { tools } from '../data/tools';
+
+const linksOf = (name: string) => tools.find((t) => t.name === name);
+const paths = [
+  {
+    tool: 'dsp-kitchen',
+    what: 'Neural recordings',
+    steps: [
+      ['Open', 'Zarr, NWB, SpikeGLX (.bin, .cbin), raw .bin and WAV: a recording larger than memory opens at once.'],
+      ['Process', 'Filter, re-reference, whiten: a pipeline of steps that runs while you look.'],
+      ['Sort', 'Kilosort4, MountainSort 5, SpyKING CIRCUS 2 and more, on the GPU.'],
+      ['Curate', 'Waveforms, features, correlograms; merge, split and label units.'],
+      ['Analyze', 'Rates, epochs and events across sessions, as tables.'],
+    ],
+  },
+  {
+    tool: 'lucem',
+    what: 'Slides and volumes',
+    steps: [
+      ['Open', 'OME-Zarr and TIFF / OME-TIFF slides and volumes, drawn from their pyramids.'],
+      ['Find tissue', 'Tissue regions in a click, at the slide’s full resolution.'],
+      ['Find cells', 'Nuclei and cells, or a model (StarDist, InstanSeg, Segment Anything).'],
+      ['Classify', 'Train a classifier on a few examples; map pixel classes and density.'],
+      ['Measure', 'Tables of what was found, and the same steps over a folder of slides.'],
+    ],
+  },
+];
+---
+
+<section id="workflow" class="container workflow">
+  <p class="eyebrow mono">02 · The tools</p>
+  <h2 class="section-title">From raw data to a result.</h2>
+  <div class="paths">
+    {
+      paths.map((p) => (
+        <article class="path">
+          <header>
+            <h3>{p.tool}</h3>
+            <p class="mono">{p.what}</p>
+          </header>
+          {linksOf(p.tool)?.description && <p class="desc">{linksOf(p.tool)?.description}</p>}
+          <ol>
+            {p.steps.map(([title, body], i) => (
+              <li>
+                <span class="num mono">{String(i + 1).padStart(2, '0')}</span>
+                <div>
+                  <h4>{title}</h4>
+                  <p>{body}</p>
+                </div>
+              </li>
+            ))}
+          </ol>
+          <footer>
+            {linksOf(p.tool)?.viewer && <a class="try" href={linksOf(p.tool)?.viewer}>Try it in your browser <span aria-hidden="true">→</span></a>}
+            {linksOf(p.tool)?.docs && <a href={linksOf(p.tool)?.docs}>Docs</a>}
+            {linksOf(p.tool)?.repo && <a href={linksOf(p.tool)?.repo}>GitHub</a>}
+          </footer>
+        </article>
+      ))
+    }
+  </div>
+</section>
+
+<style>
+  .workflow { padding-bottom: 96px; display: flex; flex-direction: column; gap: 20px; }
+  .eyebrow { margin: 0; color: var(--accent); }
+  .paths { margin-top: 12px; display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 20px; }
+  .path { border: 1px solid var(--line); border-radius: 16px; background: var(--surface); padding: 24px; display: flex; flex-direction: column; gap: 18px; }
+  .path header { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; }
+  h3 { margin: 0; font-size: 22px; letter-spacing: -0.02em; }
+  header p { margin: 0; color: var(--text-3); }
+  .desc { margin: 0; color: var(--text-2); line-height: 1.55; }
+  footer { margin-top: auto; padding-top: 6px; display: flex; flex-wrap: wrap; align-items: center; gap: 4px 20px; }
+  footer a { min-height: 44px; display: inline-flex; align-items: center; font-weight: 500; text-decoration: none; }
+  .try {
+    padding: 0 16px;
+    border-radius: 10px;
+    background: var(--lime);
+    color: var(--on-lime);
+    font-weight: 600;
+  }
+  .try:hover { background: var(--lime-hover); color: var(--on-lime); }
+  ol { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 14px; }
+  li { display: grid; grid-template-columns: 32px 1fr; gap: 12px; }
+  .num { color: var(--accent); padding-top: 3px; }
+  h4 { margin: 0 0 2px; font-size: 16px; }
+  li p { margin: 0; color: var(--text-2); line-height: 1.5; font-size: 15px; }
+  @media (max-width: 640px) { .workflow { padding-bottom: 64px; } .path { padding: 20px; } }
+</style>

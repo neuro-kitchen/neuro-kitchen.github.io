@@ -1,8 +1,13 @@
 ---
 import Base from '../layouts/Base.astro';
+import Notice from '../components/Notice.astro';
 import Header from '../components/Header.astro';
 import Hero from '../components/Hero.astro';
+import Install from '../components/Install.astro';
+import Workflow from '../components/Workflow.astro';
 import Toolkit from '../components/Toolkit.astro';
+import Benchmarks from '../components/Benchmarks.astro';
+import Faq from '../components/Faq.astro';
 import Platform from '../components/Platform.astro';
 import Principles from '../components/Principles.astro';
 import Support from '../components/Support.astro';
@@ -10,12 +15,17 @@ import Footer from '../components/Footer.astro';
 ---
 
 <Base>
+  <Notice />
   <Header />
   <main id="main">
     <Hero />
+    <Install />
+    <Workflow />
     <Toolkit />
+    <Benchmarks />
     <Platform />
     <Principles />
+    <Faq />
     <Support />
   </main>
   <Footer />

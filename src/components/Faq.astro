@@ -1,0 +1,60 @@
+---
+// Before you install: the questions people ask first, as <details> (no script).
+const questions = [
+  {
+    q: 'Do I need a GPU?',
+    a: 'No GPU needed, but it helps: every tool runs on the CPU, and a GPU (NVIDIA, AMD, Intel or Apple) makes the heavy work much faster. In a browser, drawing needs hardware graphics and processing on the GPU needs WebGPU.',
+  },
+  {
+    q: 'Does my data leave my computer?',
+    a: 'Not in the browser viewers: they read your files where they are, and nothing is uploaded. On a lab server your data stays on the server, and only paired browsers and computers may connect.',
+  },
+  {
+    q: 'Python or Rust?',
+    a: 'Both, and a desktop app. The Python packages (pip install dspk) wrap the same Rust crates, so a script and the app give the same results.',
+  },
+  {
+    q: 'Is it free?',
+    a: 'Yes, and staying free: MIT or Apache-2.0. Code that follows a project under another licence keeps it, in a crate of its own: the Kilosort port is GPL-3.0, the StarDist models BSD-3-Clause.',
+  },
+];
+---
+
+<section id="faq" class="container faq">
+  <p class="eyebrow mono">05 · Questions</p>
+  <h2 class="section-title">Before you install.</h2>
+  <div class="list">
+    {
+      questions.map(({ q, a }) => (
+        <details>
+          <summary>{q}</summary>
+          <p>{a}</p>
+        </details>
+      ))
+    }
+  </div>
+</section>
+
+<style>
+  .faq { padding-bottom: 96px; display: flex; flex-direction: column; gap: 20px; }
+  .eyebrow { margin: 0; color: var(--accent); }
+  .list { margin-top: 12px; max-width: 52rem; display: flex; flex-direction: column; border-top: 1px solid var(--line); }
+  details { border-bottom: 1px solid var(--line); }
+  summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    min-height: 60px;
+    padding: 14px 4px;
+    cursor: pointer;
+    list-style: none;
+    font-weight: 600;
+    font-size: 17px;
+  }
+  summary::-webkit-details-marker { display: none; }
+  summary::after { content: '+'; font-family: var(--mono); font-size: 20px; color: var(--accent); }
+  details[open] summary::after { content: '−'; }
+  details p { margin: 0 0 18px; padding-inline: 4px; color: var(--text-2); line-height: 1.6; max-width: 46rem; }
+  @media (max-width: 640px) { .faq { padding-bottom: 64px; } }
+</style>
