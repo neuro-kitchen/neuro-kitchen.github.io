@@ -87,3 +87,30 @@ export function knownIssues(repo: string): Promise<Issue[]> {
       .map((i) => ({ number: i.number, title: i.title, url: i.html_url, updated: i.updated_at.slice(0, 10) }));
   });
 }
+
+export interface RepoStats {
+  name: string;
+  repo: string;
+  stars: number;
+  /** The latest release's tag (`v0.0.12`), when there is one. */
+  version?: string;
+  /** Its date (YYYY-MM-DD). */
+  released?: string;
+}
+
+interface ApiRepo {
+  stargazers_count: number;
+}
+
+/** Stars and the latest release of each public tool, read once at build time. A tool that
+ *  cannot be read is left out locally (and stops the deploy in CI, as the other reads). */
+export async function toolStats(): Promise<RepoStats[]> {
+  const out: RepoStats[] = [];
+  for (const { name, repo } of projects) {
+    const [info] = await orEmpty(async () => [await get<ApiRepo>(`/repos/${repo}`)]);
+    if (!info) continue;
+    const [latest] = await releases(repo, 1);
+    out.push({ name, repo, stars: info.stargazers_count, version: latest?.tag, released: latest?.date });
+  }
+  return out;
+}

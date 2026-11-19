@@ -1,0 +1,135 @@
+---
+// Install it: one tab per way in, each a few numbered steps with the command to copy. Radio
+// tabs styled with :has() (no script); a command is selected whole with one click (user-select).
+const ways = [
+  {
+    id: 'python',
+    tab: 'Python',
+    steps: [
+      { text: 'Install the package (wheels for Linux, Windows and macOS).', code: 'pip install dspk' },
+      { text: 'With the spike-sorting and electrophysiology plugin, or the desktop app:', code: 'pip install "dspk[synapse]"   # or "dspk[app]"' },
+      { text: 'See the runtimes this computer has: CUDA, wgpu (Vulkan, Metal, DX12), the CPU:', code: 'python -c "import dspk; print(dspk.runtime.available())"' },
+    ],
+  },
+  {
+    id: 'rust',
+    tab: 'Rust',
+    steps: [
+      { text: 'Add the crates you need to your project.', code: 'cargo add dspk' },
+      { text: 'For image analysis:', code: 'cargo add lucem' },
+      { text: 'Each crate builds for CUDA, wgpu (Vulkan, Metal, DX12) and the CPU, chosen at run time.', code: null },
+    ],
+  },
+  {
+    id: 'container',
+    tab: 'Lab server',
+    steps: [
+      { text: 'Run the server image on a computer with your data (Podman or Docker).', code: 'podman run --rm -p 127.0.0.1:8443:8443/tcp -p 127.0.0.1:8443:8443/udp \\\n  -v ./data:/data:Z --device /dev/dri ghcr.io/neuro-kitchen/lucem' },
+      { text: 'Open the sign-in link it prints: the app in your browser, computing on the server’s GPU.', code: null },
+      { text: 'dsp-kitchen’s image works the same way: ghcr.io/neuro-kitchen/dspk.', code: null },
+    ],
+  },
+];
+---
+
+<section id="install" class="container install">
+  <p class="eyebrow mono">01 · Install</p>
+  <h2 class="section-title">Run it your way.</h2>
+  <p class="lede">Beyond the browser: a Python package, Rust crates, or a GPU server for the whole lab. The same tools, the same files.</p>
+
+  <fieldset class="tabs">
+    <legend class="sr-only">How to run it</legend>
+    {
+      ways.map((w, i) => (
+        <label>
+          <input type="radio" name="install" value={w.id} checked={i === 0} />
+          <span>{w.tab}</span>
+        </label>
+      ))
+    }
+  </fieldset>
+
+  {
+    ways.map((w) => (
+      <ol class="steps" data-way={w.id}>
+        {w.steps.map((s, i) => (
+          <li>
+            <span class="num mono">{String(i + 1).padStart(2, '0')}</span>
+            <div>
+              <p>{s.text}</p>
+              {s.code && <pre class="code mono"><code>{s.code}</code></pre>}
+              {s.links && (
+                <p class="links">
+                  {s.links.map(([label, href]) => (
+                    <a href={href}>
+                      {label} <span aria-hidden="true">→</span>
+                    </a>
+                  ))}
+                </p>
+              )}
+            </div>
+          </li>
+        ))}
+      </ol>
+    ))
+  }
+</section>
+
+<style>
+  .install { padding-bottom: 96px; display: flex; flex-direction: column; gap: 20px; }
+  .eyebrow { margin: 0; color: var(--accent); }
+  .lede { margin: 0; color: var(--text-2); font-size: 18px; line-height: 1.55; max-width: 40rem; }
+  .tabs {
+    margin: 8px 0 0;
+    padding: 4px;
+    border: 1px solid var(--line-2);
+    border-radius: 999px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    align-self: flex-start;
+    background: var(--surface);
+  }
+  .tabs label { position: relative; }
+  .tabs input { position: absolute; opacity: 0; inset: 0; margin: 0; cursor: pointer; }
+  .tabs span { display: inline-flex; align-items: center; min-height: 40px; padding: 0 16px; border-radius: 999px; font-size: 14px; color: var(--text-2); }
+  .tabs input:checked + span { background: var(--surface-2); color: var(--text); font-weight: 600; }
+  .tabs input:focus-visible + span { outline: 3px solid var(--accent); outline-offset: 2px; }
+
+  .steps { margin: 0; padding: 0; list-style: none; display: none; flex-direction: column; gap: 12px; max-width: 52rem; }
+  .install:has(input[value='python']:checked) [data-way='python'],
+  .install:has(input[value='rust']:checked) [data-way='rust'],
+  .install:has(input[value='container']:checked) [data-way='container'] {
+    display: flex;
+  }
+  .steps li {
+    display: grid;
+    grid-template-columns: 40px 1fr;
+    gap: 16px;
+    padding: 18px 20px;
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    background: var(--surface);
+  }
+  .num { color: var(--accent); padding-top: 2px; }
+  .steps p { margin: 0; line-height: 1.55; }
+  .code {
+    margin: 10px 0 0;
+    padding: 12px 14px;
+    border-radius: 10px;
+    background: var(--surface-2);
+    color: var(--text);
+    overflow-x: auto;
+    user-select: all;
+    white-space: pre;
+  }
+  .links { margin-top: 10px !important; display: flex; flex-wrap: wrap; gap: 8px 20px; }
+  .links a { font-weight: 500; text-decoration: none; }
+
+  .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+  @media (max-width: 640px) {
+    .install { padding-bottom: 64px; }
+    .tabs { border-radius: 16px; }
+    .steps li { grid-template-columns: 28px 1fr; padding: 16px; }
+  }
+</style>

@@ -1,0 +1,39 @@
+---
+// A strip above everything: the toolkit is young and changes fast, so a visitor knows what to
+// expect before trying it, and where to say what broke.
+import { links } from '../data/site';
+---
+
+<div class="notice" role="note">
+  <p class="container">
+    <span class="tag mono">Early days</span>
+    <span>neuro-kitchen is under active construction: things change quickly and some edges are rough.</span>
+    <a href={links.discussions}>Tell us what breaks <span aria-hidden="true">→</span></a>
+  </p>
+</div>
+
+<style>
+  .notice { background: var(--surface-2); border-bottom: 1px solid var(--line); }
+  p {
+    margin: 0 auto;
+    padding-block: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 6px 14px;
+    font-size: 14px;
+    color: var(--text-2);
+    text-align: center;
+  }
+  .tag {
+    padding: 2px 10px;
+    border-radius: 999px;
+    background: var(--lime);
+    color: var(--on-lime);
+    font-weight: 500;
+    font-size: 12px;
+  }
+  a { font-weight: 500; text-decoration: none; }
+  a:hover { text-decoration: underline; }
+</style>

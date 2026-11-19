@@ -1,0 +1,72 @@
+---
+// Measured, not claimed: each number from a published benchmark page, with what it ran on and a
+// link to the page that says how it was measured. Update from the pages, never by hand.
+const results = [
+  {
+    value: '13.0 s',
+    label: 'Kilosort4 on 45 s of Neuropixels',
+    detail: '383 channels, CUDA: 3.4× real time (26.9 s on wgpu). Two runs give identical spikes.',
+    href: 'https://neuro-kitchen.github.io/dsp-kitchen/plugins/synapse/validation/kilosort4/',
+  },
+  {
+    value: '10×',
+    label: 'A 60 Hz notch, against SciPy',
+    detail: '234 ms on CUDA vs 2461 ms in SciPy, for 2 s of a 384-channel recording, end to end.',
+    href: 'https://neuro-kitchen.github.io/dsp-kitchen/validation/scipy/',
+  },
+  {
+    value: '7.8×',
+    label: 'Smaller slides with Pcodec',
+    detail: 'A 7-colour whole-slide scan’s 16-bit tiles; zstd 5.2×, LZ4 2.9×, each round-trip checked.',
+    href: 'https://github.com/neuro-kitchen/lucem',
+  },
+];
+---
+
+<section id="benchmarks" class="container benchmarks">
+  <p class="eyebrow mono">04 · Measured</p>
+  <h2 class="section-title">Fast on the GPU you already have.</h2>
+  <p class="lede">
+    One code path compiles for CUDA, Vulkan, Metal, DirectX 12 and the CPU (CubeCL, by Tracel AI).
+    These were measured on a laptop: an RTX 2070 Max-Q.
+  </p>
+  <ul class="grid">
+    {
+      results.map((r) => (
+        <li>
+          <a href={r.href}>
+            <span class="value">{r.value}</span>
+            <span class="label">{r.label}</span>
+            <span class="detail">{r.detail}</span>
+            <span class="how mono">How it was measured →</span>
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+</section>
+
+<style>
+  .benchmarks { padding-bottom: 96px; display: flex; flex-direction: column; gap: 20px; }
+  .eyebrow { margin: 0; color: var(--accent); }
+  .lede { margin: 0; color: var(--text-2); font-size: 18px; line-height: 1.55; max-width: 44rem; }
+  .grid { margin: 12px 0 0; padding: 0; list-style: none; display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px; }
+  .grid a {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 24px;
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    background: var(--surface);
+    color: var(--text);
+    text-decoration: none;
+  }
+  .grid a:hover { border-color: var(--line-3); }
+  .value { font-size: clamp(40px, 5vw, 56px); font-weight: 700; letter-spacing: -0.04em; line-height: 1; color: var(--accent); }
+  .label { font-weight: 600; font-size: 17px; }
+  .detail { color: var(--text-2); line-height: 1.5; font-size: 15px; }
+  .how { margin-top: auto; padding-top: 8px; color: var(--text-3); }
+  @media (max-width: 640px) { .benchmarks { padding-bottom: 64px; } }
+</style>

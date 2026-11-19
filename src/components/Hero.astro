@@ -1,29 +1,112 @@
+---
+// The landing: what neuro-kitchen is, the two tools to try at once in the browser, live numbers
+// (read at build time), then the apps themselves. The screenshot tabs are radio buttons styled
+// with :has(): no script, so the site's Content-Security-Policy stays as strict as it is.
+import { toolStats } from '../data/github';
+import { tools } from '../data/tools';
+
+const stats = await toolStats();
+const viewer = (name: string) => tools.find((t) => t.name === name)?.viewer;
+
+const shots = [
+  {
+    id: 'dsp-explore',
+    tab: 'dsp-kitchen · Explore',
+    src: '/screens/dsp-explore.webp',
+    width: 1543,
+    height: 865,
+    alt: 'dsp-kitchen in the browser, in Explore: a 385-channel Neuropixels recording as traces and a heatmap, the channels on the left, the Inspector on the right and the timeline below',
+    caption: 'In your browser: a 385-channel Neuropixels recording as traces and a heatmap, processed on the browser’s GPU (WebGPU). Recording: International Brain Laboratory, Kilosort4’s example dataset.',
+  },
+  {
+    id: 'dsp-curation',
+    tab: 'dsp-kitchen · Curation',
+    src: '/screens/dsp-curation.webp',
+    width: 1543,
+    height: 865,
+    alt: 'dsp-kitchen in the browser, in Curation: a Kilosort4 sorting of 292 units, three units selected and compared in waveforms, features, template features, autocorrelograms, ISI, amplitude over time, templates and cross-correlograms, their spikes coloured on four channels below',
+    caption: 'Curating a Kilosort4 sorting in your browser: three similar units compared side by side, then merged or split. Recording: International Brain Laboratory, Kilosort4’s example dataset.',
+  },
+  {
+    id: 'lucem-explore',
+    tab: 'lucem · Explore',
+    src: '/screens/lucem-browser.webp',
+    width: 1600,
+    height: 924,
+    alt: 'lucem in the browser, in Explore: a 59-channel PhenoCycler image of two human tonsil tissue cores, the channels listed in the Layers panel and the Navigator below them',
+    caption: 'In your browser: two tonsil cores imaged with 59 markers (PhenoCycler), drawn from the OME-Zarr’s pyramid. Sample: SPACEc example data, CC0 1.0.',
+  },
+];
+---
+
 <section id="top" class="container hero">
-  <p class="pill mono"><span class="dot" aria-hidden="true"></span>Open source · Apache-2.0</p>
+  <p class="pill mono"><span class="dot" aria-hidden="true"></span>Free and open source · MIT or Apache-2.0 · no GPU needed, but it helps</p>
   <h1>Research software you can read, run and trust.</h1>
   <p class="lede">
-    neuro-kitchen is a growing toolkit for research: GPU signal processing and spike sorting,
-    image analysis for histology, data conversion and paper management. The apps share one
-    frame, and work with the agents you already use.
+    GPU signal processing and spike sorting, image analysis for histology, data conversion and
+    paper management. Open a recording or a slide right here in your browser: nothing to install,
+    nothing uploaded.
   </p>
   <div class="actions">
-    <a href="#projects" class="btn btn-primary">Explore the toolkit</a>
-    <a href="#support" class="btn">Get involved</a>
+    {viewer('dsp-kitchen') && <a href={viewer('dsp-kitchen')} class="btn btn-primary">Try dsp-kitchen <span aria-hidden="true">→</span></a>}
+    {viewer('lucem') && <a href={viewer('lucem')} class="btn btn-primary">Try lucem <span aria-hidden="true">→</span></a>}
+    <a href="#install" class="btn">Install</a>
+  </div>
+  {
+    stats.length > 0 && (
+      <ul class="stats" aria-label="The tools today">
+        {stats.map((s) => (
+          <li>
+            <span class="stat-name">{s.name}</span>
+            {s.version && (
+              <a class="mono" href={`https://github.com/${s.repo}/releases`}>
+                {s.version}
+                {s.released && <span class="muted"> · {s.released}</span>}
+              </a>
+            )}
+            {/* Stars once they say something (a handful reads as a warning, not proof) */}
+            {s.stars >= 25 && (
+              <a class="mono" href={`https://github.com/${s.repo}/stargazers`} aria-label={`${s.stars} stars on GitHub`}>
+                ★ {s.stars}
+              </a>
+            )}
+          </li>
+        ))}
+      </ul>
+    )
+  }
+</section>
+
+<section class="container showcase" aria-label="The apps">
+  <fieldset class="tabs">
+    <legend class="sr-only">Screenshot</legend>
+    {
+      shots.map((s, i) => (
+        <label>
+          <input type="radio" name="shot" value={s.id} checked={i === 0} />
+          <span>{s.tab}</span>
+        </label>
+      ))
+    }
+  </fieldset>
+  <div class="frame">
+    <div class="chrome" aria-hidden="true"><span></span><span></span><span></span></div>
+    {
+      shots.map((s, i) => (
+        <figure class="shot" data-shot={s.id}>
+          <img src={s.src} alt={s.alt} width={s.width} height={s.height} loading={i === 0 ? 'eager' : 'lazy'} decoding="async" />
+          <figcaption>
+            <span>{s.caption}</span>
+          </figcaption>
+        </figure>
+      ))
+    }
   </div>
 </section>
 
-<div class="container trace">
-  <svg viewBox="0 0 1200 180" aria-hidden="true">
-    <line x1="0" y1="90" x2="1200" y2="90" class="axis" stroke-width="1"></line>
-    <polyline class="base" fill="none" stroke-width="1.5" points="0,90 60,90 70,86 80,94 140,90 210,90 220,84 230,96 300,90 380,90 390,87 400,93 470,90"></polyline>
-    <polyline class="spikes" fill="none" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round" points="470,90 500,90 510,40 522,150 534,82 546,90 600,90 612,22 626,168 640,78 652,90 720,90 732,48 744,140 756,86 768,90"></polyline>
-    <polyline class="base" fill="none" stroke-width="1.5" points="768,90 840,90 850,86 860,94 930,90 1010,90 1020,85 1030,95 1100,90 1200,90"></polyline>
-  </svg>
-</div>
-
 <style>
   .hero {
-    padding-block: 96px 64px;
+    padding-block: 88px 40px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -54,30 +137,100 @@
     font-size: 20px;
     line-height: 1.55;
     color: var(--text-2);
-    max-width: 38rem;
+    max-width: 40rem;
   }
   .actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; }
 
-  .trace { padding-bottom: 96px; }
-  .trace svg { width: 100%; height: auto; display: block; }
-  .axis { stroke: var(--trace-axis); }
-  .base { stroke: var(--trace-base); }
-  .spikes { stroke: var(--accent); }
-
-  /* The spike train draws itself in once, unless the visitor prefers less motion */
-  .spikes {
-    stroke-dasharray: 900;
-    stroke-dashoffset: 900;
-    animation: draw 1.6s ease-out 0.3s forwards;
+  /* Live numbers: one row per tool, quiet */
+  .stats {
+    margin: 4px 0 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px 28px;
+    color: var(--text-2);
+    font-size: 15px;
   }
-  @keyframes draw { to { stroke-dashoffset: 0; } }
-  @media (prefers-reduced-motion: reduce) {
-    .spikes { animation: none; stroke-dashoffset: 0; }
+  .stats li { display: flex; align-items: baseline; gap: 12px; }
+  .stat-name { font-weight: 600; color: var(--text); }
+  .stats a { color: var(--text-2); text-decoration: none; }
+  .stats a:hover { color: var(--accent); }
+  .muted { color: var(--text-3); }
+
+  /* The apps: a window with tabs */
+  .showcase { padding-bottom: 96px; display: flex; flex-direction: column; align-items: center; gap: 16px; }
+  .tabs {
+    margin: 0;
+    padding: 4px;
+    border: 1px solid var(--line-2);
+    border-radius: 999px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 4px;
+    background: var(--surface);
+  }
+  .tabs label { position: relative; }
+  .tabs input { position: absolute; opacity: 0; inset: 0; margin: 0; cursor: pointer; }
+  .tabs span {
+    display: inline-flex;
+    align-items: center;
+    min-height: 40px;
+    padding: 0 16px;
+    border-radius: 999px;
+    font-size: 14px;
+    color: var(--text-2);
+  }
+  .tabs input:checked + span { background: var(--surface-2); color: var(--text); font-weight: 600; }
+  .tabs input:focus-visible + span { outline: 3px solid var(--accent); outline-offset: 2px; }
+  .tabs label:hover span { color: var(--text); }
+
+  .frame {
+    width: 100%;
+    border: 1px solid var(--line-2);
+    border-radius: 16px;
+    background: #0b0d12;
+    overflow: hidden;
+    box-shadow: 0 30px 80px -40px rgb(0 0 0 / 0.55);
+  }
+  .chrome { display: flex; gap: 8px; padding: 12px 14px; background: #12151c; border-bottom: 1px solid #1f2430; }
+  .chrome span { width: 11px; height: 11px; border-radius: 999px; background: #2c3242; }
+  .shot { margin: 0; display: none; }
+  .shot img { display: block; width: 100%; height: auto; }
+  .shot figcaption {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 8px 24px;
+    padding: 14px 18px;
+    font-size: 14px;
+    color: #a7b0c0;
+    background: #12151c;
+    border-top: 1px solid #1f2430;
+  }
+  .shot figcaption a { color: #c6f26b; text-decoration: none; font-weight: 500; }
+  .shot figcaption a:hover { text-decoration: underline; }
+  .showcase:has(input[value='dsp-explore']:checked) [data-shot='dsp-explore'],
+  .showcase:has(input[value='dsp-curation']:checked) [data-shot='dsp-curation'],
+  .showcase:has(input[value='lucem-explore']:checked) [data-shot='lucem-explore'] {
+    display: block;
+  }
+
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
   }
 
   @media (max-width: 640px) {
-    .hero { padding-block: 56px 40px; }
+    .hero { padding-block: 56px 32px; }
     .lede { font-size: 18px; }
-    .trace { padding-bottom: 64px; }
+    .showcase { padding-bottom: 64px; }
+    .tabs { border-radius: 16px; }
   }
 </style>
